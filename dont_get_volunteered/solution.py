@@ -19,7 +19,7 @@ class Position(namedtuple('Position', ['x', 'y'])):
         return Position(self.x + dx, self.y + dy)
 
     def is_valid(self):
-        return 0 <= self.x < 8 and 0 < self.y < 8
+        return 0 <= self.x < 8 and 0 <= self.y < 8
 
 
 Traversal = namedtuple('Traversal', ['distances', 'routes'])
