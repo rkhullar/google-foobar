@@ -2,20 +2,7 @@ from collections import deque, namedtuple
 import itertools as it
 
 
-class Position:
-    __slots__ = 'x', 'y'
-
-    def __init__(self, x, y):
-        self.x, self.y = x, y
-
-    def __repr__(self):
-        return '(%d, %d)' % (self.x, self.y)
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
-
-    def __hash__(self):
-        return hash(self.to_tuple())
+class Position(namedtuple('Position', ['x', 'y'])):
 
     def encode(self):
         return 8 * self.y + self.x
@@ -29,7 +16,7 @@ class Position:
         return self.x, self.y
 
     def offset(self, dx, dy):
-        return Position(self.x+dx, self.y+dy)
+        return Position(self.x + dx, self.y + dy)
 
     def is_valid(self):
         return 0 <= self.x < 8 and 0 < self.y < 8
