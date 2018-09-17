@@ -70,6 +70,12 @@ class KnightTest(unittest.TestCase):
         result = knight.path_to(Position(1, 7))
         self.assertEqual([Position(3, 2), Position(4, 4), Position(3, 6), Position(1, 7)], result)
 
+    def test_traverse_2(self):
+        knight = Knight()
+        knight.position = Position(0, 0)
+        traversal = knight.traverse()
+        pass
+
 
 class SolutionTest(unittest.TestCase):
 
