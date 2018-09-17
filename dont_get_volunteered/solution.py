@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, namedtuple
 import itertools as it
 
 
@@ -35,6 +35,9 @@ class Position:
         return 0 <= self.x < 8 and 0 < self.y < 8
 
 
+Traversal = namedtuple('Traversal', ['distances', 'routes'])
+
+
 class Knight:
 
     moves = None  # replaced with build moves
@@ -57,26 +60,55 @@ class Knight:
             if result.is_valid():
                 yield result
 
-    def path_to(self, target):
-        """
-        shortest path to target using breadth first search
-        :param target: Position
-        :return: List[Position]
-        """
-        queue, path = deque(), list()
+    def traverse(self):
+        queue, distances, routes, visited = deque(), dict(), dict(), set()
+
         queue.append(self.position)
-        visited = set(queue)
+        distances[self.position] = 0
+        routes[self.position] = None
+        visited.add(self.position)
 
         while len(queue) > 0:
             position = queue.popleft()
-            visited.add(position)
-            neighbors = list(self.next_positions(position))
-            print(neighbors)
-            for neighbor in neighbors:
+            distance = distances[position]
+            for neighbor in self.next_positions(position):
                 if neighbor not in visited:
                     queue.append(neighbor)
-            print(position)
-        return path
+                    visited.add(neighbor)
+
+                    current_distance_to_neighbor = distances.get(neighbor)
+                    potential_distance_to_neighbor = distance + 1
+
+                    if current_distance_to_neighbor is None or potential_distance_to_neighbor < current_distance_to_neighbor:
+                        distances[neighbor] = potential_distance_to_neighbor
+                        routes[neighbor] = position
+
+        return Traversal(distances, routes)
+
+    def distance_to(self, target):
+        """
+        shortest distance to target
+        :param target: Position
+        :return: Optional[int]
+        """
+
+        traversal = self.traverse()
+        return traversal.distances.get(target)
+
+    def path_to(self, target):
+        """
+        shortest path to target
+        :param target: Position
+        :return: Optional[List[Position]]
+        """
+
+        traversal = self.traverse()
+        if target in traversal.routes:
+            node, path = target, []
+            while node:
+                path.insert(0, node)
+                node = traversal.routes[node]
+            return path
 
 
 Knight.moves = Knight.build_moves()
@@ -86,4 +118,4 @@ def answer(src, dest):
     src, dest = map(Position.decode, [src, dest])
     knight = Knight()
     knight.position = src
-    return len(knight.path_to(dest))
+    return knight.distance_to(dest)

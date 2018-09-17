@@ -58,11 +58,17 @@ class KnightTest(unittest.TestCase):
                     Position(5, 2), Position(5, 6), Position(6, 3), Position(6, 5)]
         self.assertEqual(set(expected), set(results))
 
+    def test_distance_to_1(self):
+        knight = Knight()
+        knight.position = Position(3, 2)
+        result = knight.distance_to(Position(1, 7))
+        self.assertEqual(3, result)
+
     def test_path_to_1(self):
         knight = Knight()
         knight.position = Position(3, 2)
-        path = knight.path_to(Position(1, 7))
-        print(path)
+        result = knight.path_to(Position(1, 7))
+        self.assertEqual([Position(3, 2), Position(4, 4), Position(3, 6), Position(1, 7)], result)
 
 
 class SolutionTest(unittest.TestCase):
