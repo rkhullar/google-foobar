@@ -46,14 +46,9 @@ def complement(x, base, return_type=str):
 def difference(x, y, base, digits, return_type=str):
     # type: (Number, Number, int, int, Type) -> Number
     """determine difference of two numbers in a particular base"""
-    complement = base - 1
     X, Y = map(parse_number, [x, y])
-
-    Y_prime = [complement - value for value in Y]
-
-    return parse_number(Y_prime, return_type=return_type)
-
-    # A - B == A + B'
+    Yi = complement(Y, base=base, return_type=list)
+    return addition(X, Yi, base=base, digits=digits, return_type=return_type)
 
 
 def generator(seed, base):

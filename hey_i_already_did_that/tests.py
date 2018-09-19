@@ -34,10 +34,10 @@ class SolutionTest(unittest.TestCase):
         y = complement('7405', base=8, return_type=str)
         self.assertEqual('0373', y)
 
-    # def test_difference_1(self):
-    #     result = difference('4000', '1111', base=10, digits=4)
-    #     self.assertEqual('2999', result)
-    #
+    def test_difference__base_10(self):
+        result = difference('4000', '1111', base=10, digits=4)
+        self.assertEqual('2889', result)
+
     # def test_generator_1(self):
     #     g = generator('1211', 10)
     #     y = [next(g) for _ in range(2)]
