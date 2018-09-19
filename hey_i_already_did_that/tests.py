@@ -4,32 +4,42 @@ import unittest
 
 class SolutionTest(unittest.TestCase):
 
-    def test_number_str_to_int_array(self):
+    def test_parse_number_as_list(self):
         x, e = '1234', [1, 2, 3, 4]
-        y = number_str_to_int_array(x)
+        y = parse_number(x, return_type=list)
         self.assertEqual(e, y)
-        y = number_str_to_int_array(y)
-        self.assertEqual(e, y)
-
-    def test_return_number_as_list(self):
-        x = '1234'
-        e = [1, 2, 3, 4]
-        y = return_number(x, return_type=list)
+        y = parse_number(y, return_type=list)
         self.assertEqual(e, y)
 
-    def test_return_number_as_str(self):
-        x = [1, 2, 3, 4]
-        e = '1234'
-        y = return_number(x, return_type=str)
+    def test_parse_number_as_str(self):
+        x, e = [1, 2, 3, 4], '1234'
+        y = parse_number(x, return_type=str)
         self.assertEqual(e, y)
 
-    def test_difference_1(self):
-        result = difference('4000', '1111', base=10, digits=4)
-        self.assertEqual('2999', result)
+    def test_addition_base_10_overflow(self):
+        x, y, e = '99', '01', '00'
+        result = addition(x, y, base=10, digits=2, return_type=str)
+        self.assertEqual(e, result)
 
-    def test_generator_1(self):
-        g = generator('1211', 10)
-        y = [next(g) for _ in range(2)]
-        e = ['0999', '8991']
-        self.assertEqual(e, y)
+    def test_addition_base_8(self):
+        x, y, e = '1234', '6151', '7405'
+        result = addition(x, y, base=8, digits=4, return_type=str)
+        self.assertEqual(e, result)
 
+    def test_complement_base_10(self):
+        y = complement('1234', base=10, return_type=str)
+        self.assertEqual('8766', y)
+
+    def test_complement_base_8(self):
+        y = complement('7405', base=8, return_type=str)
+        self.assertEqual('0373', y)
+
+    # def test_difference_1(self):
+    #     result = difference('4000', '1111', base=10, digits=4)
+    #     self.assertEqual('2999', result)
+    #
+    # def test_generator_1(self):
+    #     g = generator('1211', 10)
+    #     y = [next(g) for _ in range(2)]
+    #     e = ['0999', '8991']
+    #     self.assertEqual(e, y)
