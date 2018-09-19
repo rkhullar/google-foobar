@@ -4,39 +4,67 @@ import unittest
 
 class SolutionTest(unittest.TestCase):
 
-    def test_parse_number_as_list(self):
-        x, e = '1234', [1, 2, 3, 4]
-        y = parse_number(x, return_type=list)
-        self.assertEqual(e, y)
-        y = parse_number(y, return_type=list)
+    def test_construct(self):
+        n = Number(digits=[1, 2, 3, 4], base=10)
+        self.assertIsNotNone(n)
+
+    def test_encode(self):
+        n = Number(digits=[1, 2, 3, 4], base=10)
+        self.assertEqual('1234', n.encode())
+
+    def test_decode(self):
+        y = Number.decode('1234', base=10, size=5)
+        e = Number(digits=[0, 1, 2, 3, 4], base=10)
         self.assertEqual(e, y)
 
-    def test_parse_number_as_str(self):
-        x, e = [1, 2, 3, 4], '1234'
-        y = parse_number(x, return_type=str)
-        self.assertEqual(e, y)
+    def test_decode_error(self):
+        with self.assertRaises(ValueError):
+            Number.decode('1234', base=10, size=2)
 
-    def test_addition_base_10_overflow(self):
-        x, y, e = '99', '01', '00'
-        result = addition(x, y, base=10, digits=2, return_type=str)
-        self.assertEqual(e, result)
+    def test_compatible(self):
+        a = Number(digits=[1], base=2)
+        b = Number(digits=[0], base=2)
+        self.assertTrue(a.compatible(b))
 
-    def test_addition_base_8(self):
-        x, y, e = '1234', '6151', '7405'
-        result = addition(x, y, base=8, digits=4, return_type=str)
-        self.assertEqual(e, result)
+    def test_not_compatible(self):
+        a = Number(digits=[1], base=2)
+        b = Number(digits=[0], base=3)
+        c = Number(digits=[0, 1], base=2)
+        self.assertFalse(a.compatible(b))
+        self.assertFalse(b.compatible(c))
+        self.assertFalse(a.compatible(c))
+
+    def test_addition_base_10(self):
+        a = Number.decode('99', base=10)
+        b = Number.decode('01', base=10)
+        e = Number.decode('00', base=10)
+        self.assertEqual(e, a + b)
+
+    def test_addition_base_08(self):
+        a = Number.decode('1234', base=8)
+        b = Number.decode('6151', base=8)
+        e = Number.decode('7405', base=8)
+        self.assertEqual(e, a + b)
+
+    def test_one_base_8(self):
+        base8 = Number(digits=[0, 0, 0], base=8)
+        self.assertEqual('001', base8.one.encode())
 
     def test_complement_base_10(self):
-        y = complement('1234', base=10, return_type=str)
-        self.assertEqual('8766', y)
+        x = Number.decode('1234', base=10)
+        e = Number.decode('8766', base=10)
+        self.assertEqual(e, x.complement())
 
     def test_complement_base_8(self):
-        y = complement('7405', base=8, return_type=str)
-        self.assertEqual('0373', y)
+        x = Number.decode('7405', base=8)
+        e = Number.decode('0373', base=8)
+        self.assertEqual(e, x.complement())
 
-    def test_difference__base_10(self):
-        result = difference('4000', '1111', base=10, digits=4)
-        self.assertEqual('2889', result)
+    def test_difference_base_10(self):
+        a = Number.decode('4000', base=10)
+        b = Number.decode('1111', base=10)
+        e = Number.decode('2889', base=10)
+        self.assertEqual(e, a - b)
 
     # def test_generator_1(self):
     #     g = generator('1211', 10)

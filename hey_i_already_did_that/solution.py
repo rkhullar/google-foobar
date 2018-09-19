@@ -1,54 +1,71 @@
-from typing import Union, List, Iterator, Type
-Number = Union[str, List[int]]
+from collections import namedtuple
+from typing import Iterator
 
 
-def parse_number(number, return_type=list):
-    # type: (Number, Type) -> Number
-    """converts to and from string and list of ints"""
+class Number(namedtuple('Number', ['digits', 'base'])):
 
-    if isinstance(number, str):
-        array = list(map(int, number))
-    elif isinstance(number, list):
-        array = number
-    else:
-        raise ValueError
+    @property
+    def size(self):
+        # type: () -> int
+        return len(self.digits)
 
-    if return_type is str:
-        return ''.join(map(str, array))
-    elif return_type is list:
-        return array
-    else:
-        raise ValueError
+    def encode(self):
+        # type: () -> str
+        return ''.join(map(str, self.digits))
 
+    @staticmethod
+    def decode(string, base, size=None):
+        # type: (str, int, int) -> Number
+        digits = list(map(int, string))
+        if size:
+            delta = size - len(digits)
+            if delta > 0:
+                digits = [0]*delta + digits
+            elif delta < 0:
+                raise ValueError(dict(message='more characters than size',
+                                      expected=size, actual=len(digits), string=string))
+        return Number(digits, base)
 
-def addition(x, y, base, digits, return_type=str):
-    # type: (Number, Number, int, int, Type) -> Number
-    """determine sum of two numbers in a particular base"""
-    X, Y = map(parse_number, [x, y])
-    C = [0] * (digits + 1)
-    S = [0] * (digits + 0)
-    for i in range(digits-1, -1, -1):
-        t = X[i] + Y[i] + C[i]
-        C[i-1], S[i] = divmod(t, base)
-    return parse_number(S, return_type=return_type)
+    def compatible(self, other):
+        # type: (Number) -> bool
+        return self.base == other.base and self.size == other.size
 
+    def _assert_compatible(self, other):
+        # type: (Number) -> None
+        if not self.compatible(other):
+            raise ValueError(dict(message='numbers must have same base and size'))
 
-def complement(x, base, return_type=str):
-    # type: (Number, int, Type) -> Number
-    """determines complement of number with given base"""
-    digits = len(x)
-    X = parse_number(x)
-    C = [base - value - 1 for value in X]
-    C = addition(C, '1'.zfill(digits), base=base, digits=digits)
-    return parse_number(C, return_type=return_type)
+    @property
+    def one(self):
+        # type: () -> Number
+        digits = [0] * self.size
+        digits[-1] = 1
+        return Number(digits=digits, base=self.base)
 
+    def complement(self):
+        # type: () -> Number
+        partial = [self.base - value - 1 for value in self.digits]
+        return Number(digits=partial, base=self.base) + self.one
 
-def difference(x, y, base, digits, return_type=str):
-    # type: (Number, Number, int, int, Type) -> Number
-    """determine difference of two numbers in a particular base"""
-    X, Y = map(parse_number, [x, y])
-    Yi = complement(Y, base=base, return_type=list)
-    return addition(X, Yi, base=base, digits=digits, return_type=return_type)
+    def __add__(self, other):
+        # type: (Number) -> Number
+        self._assert_compatible(other)
+
+        carry = [0] * (self.size + 1)
+        total = [0] * (self.size + 0)
+        for i in range(self.size - 1, -1, -1):
+            value = self.digits[i] + other.digits[i] + carry[i]
+            carry[i - 1], total[i] = divmod(value, self.base)
+
+        return Number(digits=total, base=self.base)
+
+    def __sub__(self, other):
+        # type: (Number) -> Number
+        return self + other.complement()
+
+    def sorted(self, reverse=False):
+        # type: () -> Number
+        return self._replace()
 
 
 def generator(seed, base):
@@ -63,14 +80,13 @@ def generator(seed, base):
     >> '8991'
     """
 
-    n = seed
-    k = len(seed)
+    n = Number.decode(seed, base=base)
 
     while True:
-        x = sorted(n, reverse=True)
-        y = sorted(n)
-        z = difference(x, y, base=base, digits=k, return_type=str)
-        yield z
+        x = n.sorted(reverse=True)
+        y = n.sorted()
+        z = x - y
+        yield z.encode()
         n = z
 
 
