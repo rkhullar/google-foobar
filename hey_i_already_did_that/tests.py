@@ -66,8 +66,15 @@ class SolutionTest(unittest.TestCase):
         e = Number.decode('2889', base=10)
         self.assertEqual(e, a - b)
 
-    # def test_generator_1(self):
-    #     g = generator('1211', 10)
-    #     y = [next(g) for _ in range(2)]
-    #     e = ['0999', '8991']
-    #     self.assertEqual(e, y)
+    def test_sorted_base_8(self):
+        x = Number.decode('6372', base=8)
+        e = Number.decode('2367', base=8)
+        self.assertEqual(e, x.sorted())
+        e = Number.decode('7632', base=8)
+        self.assertEqual(e, x.sorted(reverse=True))
+
+    def test_generator_example_1(self):
+        g = generator('1211', 10)
+        y = [next(g) for _ in range(2)]
+        e = ['0999', '8991']
+        self.assertEqual(e, y)

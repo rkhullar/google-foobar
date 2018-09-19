@@ -64,8 +64,8 @@ class Number(namedtuple('Number', ['digits', 'base'])):
         return self + other.complement()
 
     def sorted(self, reverse=False):
-        # type: () -> Number
-        return self._replace()
+        # type: (bool) -> Number
+        return self._replace(digits=sorted(self.digits, reverse=reverse))
 
 
 def generator(seed, base):
