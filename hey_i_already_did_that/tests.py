@@ -107,3 +107,7 @@ class SolutionTest(unittest.TestCase):
     def test_answer_example_2(self):
         y, e = answer('210022', 3), 3
         self.assertEqual(e, y)
+
+    def test_answer_example_3(self):
+        y, e = answer('16254', 7), 5
+        self.assertEqual(e, y)
