@@ -96,8 +96,7 @@ def _detect_loop():
         x = yield result
         i += 1
         if x in visited:
-            yield i - visited[x]
-            return
+            result = i - visited[x]
         else:
             visited[x] = i
 
