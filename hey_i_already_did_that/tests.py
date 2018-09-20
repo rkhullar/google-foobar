@@ -100,7 +100,10 @@ class SolutionTest(unittest.TestCase):
         e = ['0999', '8991']
         self.assertEqual(e, y)
 
-    def test_tdd(self):
-        g = generator('210022', 3)
-        for _ in range(10):
-            print next(g)
+    def test_answer_example_1(self):
+        y, e = answer('1211', 10), 1
+        self.assertEqual(e, y)
+
+    def test_answer_example_2(self):
+        y, e = answer('210022', 3), 3
+        self.assertEqual(e, y)

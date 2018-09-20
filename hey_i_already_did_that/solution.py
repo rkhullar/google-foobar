@@ -121,4 +121,5 @@ def answer(n, b):
     """
     determine size of cyclic group given start and base
     """
-    pass
+    sequence = generator(seed=n, base=b)
+    return detect_loop(sequence)
