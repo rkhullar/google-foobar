@@ -2,7 +2,7 @@ from solution import *
 import unittest
 
 
-class SolutionTest(unittest.TestCase):
+class NumberTest(unittest.TestCase):
 
     def test_construct(self):
         n = Number(digits=[1, 2, 3, 4], base=10)
@@ -73,8 +73,34 @@ class SolutionTest(unittest.TestCase):
         e = Number.decode('7632', base=8)
         self.assertEqual(e, x.sorted(reverse=True))
 
+
+class DetectLoopTest(unittest.TestCase):
+
+    def test_loop_size_3(self):
+        g, e = iter('fegabca'), 3
+        y = detect_loop(g)
+        self.assertEqual(e, y)
+
+    def test_loop_size_1(self):
+        g, e = iter('xyzaa'), 1
+        y = detect_loop(g)
+        self.assertEqual(e, y)
+
+    def test_no_loop(self):
+        g, e = iter('abcd'), -1
+        y = detect_loop(g)
+        self.assertEqual(e, y)
+
+
+class SolutionTest(unittest.TestCase):
+
     def test_generator_example_1(self):
         g = generator('1211', 10)
         y = [next(g) for _ in range(2)]
         e = ['0999', '8991']
         self.assertEqual(e, y)
+
+    def test_tdd(self):
+        g = generator('210022', 3)
+        for _ in range(10):
+            print next(g)

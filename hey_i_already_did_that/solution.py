@@ -90,6 +90,32 @@ def generator(seed, base):
         n = z
 
 
+def _detect_loop():
+    result, i, visited = None, 0, dict()
+    while True:
+        x = yield result
+        i += 1
+        if x in visited:
+            yield i - visited[x]
+            return
+        else:
+            visited[x] = i
+
+
+def detect_loop(sequence):
+    # type: (Iterator) -> int
+    dut = _detect_loop()
+    dut.send(None)
+    while True:
+        try:
+            x = next(sequence)
+        except StopIteration:
+            return -1
+        y = dut.send(x)
+        if y is not None:
+            return y
+
+
 def answer(n, b):
     # type: (str, int) -> int
     """
