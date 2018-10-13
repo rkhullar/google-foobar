@@ -24,3 +24,5 @@ Who the heck puts clover and coffee creamer in their tea? Commander Lambda, appa
 Commander Lambda has six suits, three dress uniforms, four casual outfits, and one Dress-Uniform-For-Important-Speeches-Only. You know this because you've already had to take all of them to the dry cleaner's. Twice!
 
 Awesome! Commander Lambda was so impressed by your efforts that she's made you her personal assistant. You'll be helping her directly with her work, which means you'll have access to all of her files-including the ones on the LAMBCHOP doomsday device. This is the chance you've been waiting for. Can you use your new access to finally topple Commander Lambda's evil empire?
+
+As Commander Lambda's personal assistant, you get to deal with all of the paperwork involved in running a space station big enough to house the LAMBCHOP. And you thought Bunny HQ had too much bureaucracy...
