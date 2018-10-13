@@ -22,7 +22,8 @@ def xor_1_to_n_optimized(n):
     time complexity: O(1)
     space complexity: O(1)
     """
-    return {0: n, 1: 1, 2: n+1, 3: 0}[n % 4]
+    # return {0: n, 1: 1, 2: n+1, 3: 0}[n % 4]
+    return [n, 1, n+1, 0][n % 4]
 
 
 xor_1_to_n = xor_1_to_n_optimized
