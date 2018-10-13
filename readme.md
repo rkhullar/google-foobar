@@ -6,4 +6,5 @@
 - hey i already did that (72 hrs)
 
 ## level 3
-- Queue To Do
+- Queue To Do (96 hrs)
+- Queue To Do (96 hrs)
