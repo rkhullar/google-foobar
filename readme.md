@@ -6,5 +6,5 @@
 - hey i already did that (72 hrs)
 
 ## level 3
-- Queue To Do
-- Fuel Injection Perfection
+- queue_to_do (96 hrs)
+- fuel_injection_perfection (96 hrs)
