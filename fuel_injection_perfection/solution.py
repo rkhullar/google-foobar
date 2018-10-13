@@ -1,21 +1,20 @@
 from typing import Iterator
 
 
-def reduction(n):
+def reduction(x):
     # type: (int) -> Iterator[int]
     """
     reduction sequence from n to 1 by either adding 1, subtracting 1, or dividing by 2
     """
-    yield n
-    x = n
-    if x in {1, 2}:
-        if x == 2:
-            yield 1
-        return
+    yield x
     while x > 1:
         r = x % 4
-        a = [x/2, x-1, x/2, x+1]
-        x = a[r]
+        if r in {0, 2}:
+            x /= 2
+        elif r == 1 or x == 3:
+            x -= 1
+        else:
+            x += 1
         yield x
 
 
