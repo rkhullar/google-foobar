@@ -35,7 +35,30 @@ def answer(n):
     return blocks[n]-1
 
 
+def calculate_steps(n):
+    # pad size
+    size = n + 1
+
+    # create zero-filled matrix
+    matrix = [[0 for _ in xrange(size)] for _ in xrange(size)]
+
+    # base value is always padded and skipped
+    matrix[0][0] = 1
+    for prev in xrange(1, size):
+        for left in xrange(0, size):
+            matrix[prev][left] = matrix[prev - 1][left]
+            if left >= prev:
+                matrix[prev][left] += matrix[prev - 1][left - prev]
+
+    return matrix[n][n] - 1
+
+
 if __name__ == '__main__':
     n = 200
-    for i, h in enumerate(arrange(n)):
-        print i, h
+    y = calculate_steps(n)
+    print y
+
+    for i in range(21):
+        y1 = calculate_steps(i)
+        y2 = answer(i)
+        print '[{:d}, {:d}],'.format(i, y1)
