@@ -1,16 +1,41 @@
+from functools import wraps
+from typing import List
+
+
+def memorized(fn):
+    cache = dict()
+
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        key = args + tuple(kwargs.items())
+        if key in cache:
+            return cache[key]
+        else:
+            val = fn(*args, **kwargs)
+            cache[key] = val
+            return val
+
+    wrapper.cache = cache
+    return wrapper
+
+
 def f(n):
     # type: (int) -> int
     return g(1, n) - 1
 
 
+@memorized
 def g(prev, left):
     # type: (int, int) -> int
     if left == 0:
+        # all the bricks have been used
         return 1
     elif left < prev:
+        # not enough bricks to build a new stair
         return 0
     else:
-        return g(prev+1, left) + g(prev+1, left-prev)
+        # either build a new stair now or try the next height (height + 1)
+        return g(prev+1, left-prev) + g(prev+1, left)
 
 
 """
@@ -64,6 +89,40 @@ N = 10  ->  f(10) = 9
 
 """
 
+
+def m(n):
+    # type: (int) -> List[List[int]]
+    size = n + 1
+    matrix = [[0 for _ in xrange(size)] for _ in xrange(size)]
+    matrix[0][0] = 1
+    for prev in xrange(1, size):
+        for left in xrange(0, size):
+            matrix[prev][left] = matrix[prev-1][left]
+            if left >= prev:
+                matrix[prev][left] += matrix[prev-1][left-prev]
+    return matrix
+
+
 if __name__ == '__main__':
-    for i in range(11):
-        print i, f(i)
+    N = 10
+
+    for x in xrange(N+1):
+        y = f(x)
+        # print x, y
+
+    # matrix = [[-1 for _ in xrange(N+2)] for _ in xrange(N+2)]
+    # for key, val in g.cache.items():
+    #     prev, left = key
+    #     matrix[prev][left] = val
+
+    # matrix = m(N)
+
+    matrix = [[-1 for _ in xrange(N+1)] for _ in xrange(N+1)]
+    for prev in xrange(N+1):
+        for left in xrange(N+1):
+            matrix[prev][left] = g(prev, left)
+
+    for row in matrix:
+        print '\t'.join(map(str, row))
+
+    pass
