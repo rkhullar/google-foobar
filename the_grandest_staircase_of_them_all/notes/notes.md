@@ -32,8 +32,8 @@ $$
 
 ## Dynamic
 If we run the recursive solution we would see that the number of invocations to *G* grows exponentially with *N*. Let's see what happens if we fill in an *NxN* matrix with results from the recursive solution.
-[N = 5](tables/table-05-recursive.md)
-[N = 10](tables/table-10-recursive.md)
+[N=5](tables/table-05-recursive.md)
+[N=10](tables/table-10-recursive.md)
 
 We can observe the following with our recursive solution matrices:
 - We don't care about the first row.
@@ -61,8 +61,8 @@ F(N) = G(N, N)-1
 $$
 
 Here are the tables for the new solution:
-[N = 5](tables/table-05-dynamic.md)
-[N = 10](tables/table-10-dynamic.md)
+[N=5](tables/table-05-dynamic.md)
+[N=10](tables/table-10-dynamic.md)
 
 ### Time and Space
 With our dynamic solution we have quadratic time complexity as well as quadratic space complexity.
