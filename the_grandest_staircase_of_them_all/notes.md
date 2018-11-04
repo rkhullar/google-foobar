@@ -1,1 +1,51 @@
-[link]: https://jtp.io/2016/07/26/dynamic-programming-python.html
+N = 3   ->  f(3) = 1
+3 = 2 + 1
+
+N = 4   ->  f(4) = 1
+4 = 3 + 1
+
+N = 5   ->  f(5) = 2
+5 = 4 + 1
+5 = 3 + 2
+
+N = 6   ->  f(6) = 3
+6 = 5 + 1
+6 = 4 + 2
+6 = 3 + 2 + 1
+
+N = 7   ->  f(7) = 4
+7 = 6 + 1
+7 = 5 + 2
+7 = 4 + 3
+7 = 4 + 2 + 1
+
+N = 8   ->  f(8) = 5
+8 = 7 + 1
+8 = 6 + 2
+8 = 5 + 3
+8 = 5 + 2 + 1
+8 = 4 + 3 + 1
+
+N = 9   ->  f(9) = 7
+9 = 8 + 1
+9 = 7 + 2
+9 = 6 + 3
+9 = 6 + 2 + 1
+9 = 5 + 4
+9 = 5 + 3 + 1
+9 = 4 + 3 + 2
+
+N = 10  ->  f(10) = 9
+10 = 9 + 1
+10 = 8 + 2
+10 = 7 + 3
+10 = 7 + 2 + 1
+10 = 6 + 4
+10 = 6 + 3 + 1
+10 = 5 + 4 + 1
+10 = 5 + 3 + 2
+10 = 4 + 3 + 2 + 1
+
+
+[link1]: https://jtp.io/2016/07/26/dynamic-programming-python.html
+[link2]: https://math.stackexchange.com/questions/2055775/finding-all-possible-designs-for-a-staircase
